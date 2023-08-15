@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">NimblerxChallenge</string>
+    <string name="direction_to_order">Click on a pharmacy name to order your medication</string>
+    <string name="already_ordered">You ordered from all the pharmacies already</string>
+    <string name="order_from_closest_pharm">Order from the Closest Pharmacy</string>
+    <string name="already_on_list">That medication is already on your list</string>
+    <string name="enter_medication_name">Enter your Medication Name</string>
+    <string name="not_on_preset_list">That medication is not on the preset list</string>
+    <string name="not_on_current_list">That medication was not on your current list</string>
+    <string name="back_to_pharmacies">Back to the Other Pharmacies</string>
+    <string name="no_medications_chosen">You did not choose any medications to order</string>
+    <string name="ordered_medications">Ordered Medications:</string>
+    <string name="already_ordered_specific_pharm">You have ordered from this pharmacy</string>
+    <string name="order_medications">Order Medications</string>
+    <string name="back_to_pharm_screen">Go Back to Pharmacy Screen</string>
+    <string name="name_not_available">Pharmacy Name not Available</string>
+    <string name="phone_number_not_available">No Primary Phone Number Available</string>
+    <string name="hours_not_available">Hours Not Available</string>
+    <string name="add">Add</string>
+    <string name="remove">Remove</string>
+    <string name="confirm">Confirm</string>
+</resources>
