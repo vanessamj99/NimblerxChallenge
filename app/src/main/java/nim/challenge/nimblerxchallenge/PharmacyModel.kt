@@ -1,5 +1,6 @@
 package nim.challenge.nimblerxchallenge
 
+import android.widget.Toast
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
@@ -105,21 +106,26 @@ class PharmacyModel {
      * Return Value: PharmacyDataClass (made in a separate file)
      * Api call with the pharmacy Id of the specific Pharmacy
      */
-    suspend fun getData(pharmId: String?): PharmacyDataClass {
-        val url = "https://api-qa-demo.nimbleandsimple.com/pharmacies/info/${pharmId}"
-        val pharmacy: PharmacyDataClass
+    suspend fun getData(pharmId: String?): PharmacyDataClass? {
+        try {
+            val url = "https://api-qa-demo.nimbleandsimple.com/pharmacies/info/${pharmId}"
+            val pharmacy: PharmacyDataClass
 
-        val client = HttpClient(CIO) {
-            install(ContentNegotiation) {
-                json(Json {
-                    ignoreUnknownKeys = true
-                    prettyPrint = true
-                    isLenient = true
-                })
+            val client = HttpClient(CIO) {
+                install(ContentNegotiation) {
+                    json(Json {
+                        ignoreUnknownKeys = true
+                        prettyPrint = true
+                        isLenient = true
+                    })
+                }
             }
-        }
 
-        pharmacy = client.get(url).body()
-        return pharmacy
+            pharmacy = client.get(url).body()
+            return pharmacy
+        }
+        catch (e: Exception){
+            return null
+        }
     }
 }

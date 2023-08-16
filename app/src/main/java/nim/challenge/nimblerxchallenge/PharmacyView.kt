@@ -94,7 +94,7 @@ class PharmacyView : AppCompatActivity() {
     fun PharmacyDetailScreen(pharmId: String) {
         val pharmacy: PharmacyDataClass
         runBlocking {
-            pharmacy = PharmacyModel().getData(pharmId)
+            pharmacy = PharmacyModel().getData(pharmId) ?: PharmacyDataClass(null,null,null,null,null)
         }
         Column(
             modifier = Modifier
@@ -131,7 +131,7 @@ class PharmacyView : AppCompatActivity() {
                 PharmacyNames(name, ordered = ordered) {
                     var pharmacyData: PharmacyDataClass
                     runBlocking {
-                        pharmacyData = PharmacyModel().getData(pharmId)
+                        pharmacyData = PharmacyModel().getData(pharmId) ?: PharmacyDataClass(null,null,null,null,null)
                         navController.navigate("pharmacyDetails/${pharmacyData.value?.id}")
                     }
                 }
@@ -169,7 +169,7 @@ class PharmacyView : AppCompatActivity() {
                         for ((pharmId, _) in tempMap) {
                             val pharmacy: PharmacyDataClass
                             runBlocking {
-                                pharmacy = PharmacyModel().getData(pharmId)
+                                pharmacy = PharmacyModel().getData(pharmId) ?: PharmacyDataClass(null,null,null,null,null)
                             }
                             pharmacy.value?.address?.latitude?.let { it1 ->
                                 pharmacy.value.address.longitude?.let { it2 ->
@@ -342,32 +342,42 @@ class PharmacyView : AppCompatActivity() {
                     Text(stringResource(R.string.back_to_pharmacies))
                 }
 
-                if (!tempMap[pharmId]?.second!!) {
-                    Box(
-                        modifier = Modifier.padding(top = 200.dp, start = 5.dp),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Button(
-                            onClick = {
-                                navController.navigate("orderingScreen")
-                            }
+                if(tempMap.isNotEmpty()){
+                    if (tempMap[pharmId]?.second == false) {
+                        Box(
+                            modifier = Modifier.padding(top = 200.dp, start = 5.dp),
+                            contentAlignment = Alignment.Center,
                         ) {
-                            Text(stringResource(R.string.order_medications))
+                            Button(
+                                onClick = {
+                                    navController.navigate("orderingScreen")
+                                }
+                            ) {
+                                Text(stringResource(R.string.order_medications))
+                            }
                         }
-                    }
-                } else {
-                    Box(
-                        modifier = Modifier.padding(top = 200.dp, start = 5.dp)
-                    ) {
-                        Text(stringResource(R.string.already_ordered_specific_pharm), Modifier.padding(top = 80.dp), fontWeight = FontWeight.Bold)
-                        Text(stringResource(R.string.ordered_medications), Modifier.padding(top = 96.dp), style = TextStyle(textDecoration = TextDecoration.Underline))
-                        LazyColumn(Modifier.padding(top = 112.dp)) {
-                            items(selectedMedsMap[pharmId].orEmpty()) {
-                                Text(it.name)
+                    } else {
+                        Box(
+                            modifier = Modifier.padding(top = 200.dp, start = 5.dp)
+                        ) {
+                            Text(
+                                stringResource(R.string.already_ordered_specific_pharm),
+                                Modifier.padding(top = 80.dp),
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                stringResource(R.string.ordered_medications),
+                                Modifier.padding(top = 96.dp),
+                                style = TextStyle(textDecoration = TextDecoration.Underline)
+                            )
+                            LazyColumn(Modifier.padding(top = 112.dp)) {
+                                items(selectedMedsMap[pharmId].orEmpty()) {
+                                    Text(it.name)
+                                }
                             }
                         }
                     }
-                }
+            }
 
             }
         }
